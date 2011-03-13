@@ -367,7 +367,7 @@ class DefinedSwitchTest extends \PHPUnit_Framework_TestCase
                     ->setArgValidator(new MustBeWriteable());
 
                 // did it work?
-                $this->assertTrue($obj->arg->testMustValidateWith('Phix_Project\ValidationLib\MustBeWriteable'));
+                $this->assertTrue($obj->arg->testMustValidateWith('Gradwell\ValidationLib\MustBeWriteable'));
         }
 
         public function testCanTestForOptionalArguments()
