@@ -61,4 +61,9 @@ If you want to patch or enhance this component, you will need to create a suitab
 You can then clone the git repository:
 
     # ValidationLib
-    git clone git://github.com/Gradwell/ValidationLib.git
+    git clone git://github.com/Gradwell/CommandLineLib.git
+
+Then, build the vendor folder to complete the dev environment:
+
+    # build vendor/
+    phing build-vendor
