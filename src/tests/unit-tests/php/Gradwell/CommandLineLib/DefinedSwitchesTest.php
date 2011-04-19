@@ -275,6 +275,8 @@ class DefinedSwitchesTest extends \PHPUnit_Framework_TestCase
 
                 $switches = $options->getsSwitchesInDisplayOrder();
 
+                // short switches first ...
+                //
                 // do we have the expected structure back?
                 $this->assertTrue(isset($switches['shortSwitchesWithArgs']));
                 $this->assertTrue(isset($switches['shortSwitchesWithoutArgs']));
@@ -288,6 +290,8 @@ class DefinedSwitchesTest extends \PHPUnit_Framework_TestCase
                 $actualOrder   = array_keys($switches['shortSwitchesWithoutArgs']);
                 $this->assertEquals($expectedOrder, $actualOrder);
 
+                // then long switches
+                //
                 // do we have the expected structure back?
                 $this->assertTrue(isset($switches['longSwitchesWithArgs']));
                 $this->assertTrue(isset($switches['longSwitchesWithoutArgs']));
@@ -299,6 +303,16 @@ class DefinedSwitchesTest extends \PHPUnit_Framework_TestCase
 
                 $expectedOrder = array('help', 'version');
                 $actualOrder   = array_keys($switches['longSwitchesWithoutArgs']);
+                $this->assertEquals($expectedOrder, $actualOrder);
+
+                // finally, the list of all switches
+                // 
+                // do we have the expected structure back?
+                $this->assertTrue(isset($switches['allSwitches']));
+
+                // has it worked?
+                $expectedOrder = array('-?', '-I', '-b', '-h', '-p', '-s', '-v', '--build.properties', '--help', '--include', '--packageXml', '--src', '--version');
+                $actualOrder   = array_keys($switches['allSwitches']);
                 $this->assertEquals($expectedOrder, $actualOrder);
         }
 }
