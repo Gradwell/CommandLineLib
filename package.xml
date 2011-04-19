@@ -46,7 +46,7 @@ ${contents}
         <name>Autoloader</name>
         <channel>pear.gradwell.com</channel>
         <min>2.0.0</min>
-	      <max>2.999.9999</max>
+	<max>2.999.9999</max>
       </package>
       <package>
         <name>ValidationLib</name>
