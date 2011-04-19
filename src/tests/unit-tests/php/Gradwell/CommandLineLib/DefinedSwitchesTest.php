@@ -223,4 +223,82 @@ class DefinedSwitchesTest extends \PHPUnit_Framework_TestCase
                 $this->assertTrue(isset($switches[$switch2Name]));
                 $this->assertSame($switch2, $switches[$switch2Name]);
         }
+
+        public function testCanRetrieveListOfSwitchesInRightOrderToDisplay()
+        {
+                $options = new DefinedSwitches();
+
+                $options->addSwitch('version', 'show the version number')
+                        ->setWithShortSwitch('v')
+                        ->setWithLongSwitch('version');
+
+                $options->addSwitch('properties', 'specify the build.properties file to use')
+                        ->setWithShortSwitch('b')
+                        ->setWithLongSwitch('build.properties')
+                        ->setWithRequiredArg('<build.properties>', 'the path to the build.properties file to use')
+                        ->setArgHasDefaultValueOf('build.properties');
+
+                $options->addSwitch('packageXml', 'specify the package.xml file to expand')
+                        ->setWithShortSwitch('p')
+                        ->setWithLongSwitch('packageXml')
+                        ->setwithRequiredArg('<package.xml>', 'the path to the package.xml file to use')
+                        ->setArgHasDefaultValueOf('.build/package.xml');
+
+                $options->addSwitch('srcFolder', 'specify the src folder to feed into package.xml')
+                        ->setWithShortSwitch('s')
+                        ->setWithLongSwitch('src')
+                        ->setWithRequiredArg('<folder>', 'the path to the folder where the package source files are')
+                        ->setArgHasDefaultValueOf('src');
+
+                $options->addSwitch('help', 'displays a summary of how to use this command')
+                        ->setWithShortSwitch('h')
+                        ->setWithShortSwitch('?')
+                        ->setWithLongSwitch('help');
+
+                $options->addSwitch('include', 'adds additional folders to PHP include_path')
+                        ->setWithShortSwitch('I')
+                        ->setWithLongSwitch('include')
+                        ->setWithRequiredArg('<path>', 'path to add to include_path')
+                        ->setLongDesc("phix finds all of its commands by searching PHP's include_path for PHP files in "
+                                       . "folders called 'PhixCommands'. If you want to phix to look in other folders "
+                                       . "without having to add them to PHP's include_path, use --include to tell phix "
+                                       . "to look in these folders."
+                                       . \PHP_EOL . \PHP_EOL
+                                       . "phix expects '<path>' to point to a folder that conforms to the PSR0 standard "
+                                       . "for autoloaders."
+                                       . \PHP_EOL . \PHP_EOL
+                                       . "For example, if your command is the class '\Me\Tools\PhixCommands\ScheduledTask', phix would "
+                                       . "expect to autoload this class from the 'Me/Tools/PhixCommands/ScheduledTask.php' file."
+                                       . \PHP_EOL . \PHP_EOL
+                                       . "If your class lives in the './myApp/lib/Me/Tools/PhixCommands' folder, you would call phix "
+                                       . "with 'phix --include=./myApp/lib'");
+
+                $switches = $options->getsSwitchesInDisplayOrder();
+
+                // do we have the expected structure back?
+                $this->assertTrue(isset($switches['shortSwitchesWithArgs']));
+                $this->assertTrue(isset($switches['shortSwitchesWithoutArgs']));
+
+                // has it worked?
+                $expectedOrder = array('I', 'b', 'p', 's');
+                $actualOrder   = array_keys($switches['shortSwitchesWithArgs']);
+                $this->assertEquals($expectedOrder, $actualOrder);
+
+                $expectedOrder = array('?', 'h', 'v');
+                $actualOrder   = array_keys($switches['shortSwitchesWithoutArgs']);
+                $this->assertEquals($expectedOrder, $actualOrder);
+
+                // do we have the expected structure back?
+                $this->assertTrue(isset($switches['longSwitchesWithArgs']));
+                $this->assertTrue(isset($switches['longSwitchesWithoutArgs']));
+
+                // has it worked?
+                $expectedOrder = array('build.properties', 'include', 'packageXml', 'src');
+                $actualOrder   = array_keys($switches['longSwitchesWithArgs']);
+                $this->assertEquals($expectedOrder, $actualOrder);
+
+                $expectedOrder = array('help', 'version');
+                $actualOrder   = array_keys($switches['longSwitchesWithoutArgs']);
+                $this->assertEquals($expectedOrder, $actualOrder);
+        }
 }
