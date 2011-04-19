@@ -273,7 +273,7 @@ class DefinedSwitchesTest extends \PHPUnit_Framework_TestCase
                                        . "If your class lives in the './myApp/lib/Me/Tools/PhixCommands' folder, you would call phix "
                                        . "with 'phix --include=./myApp/lib'");
 
-                $switches = $options->getsSwitchesInDisplayOrder();
+                $switches = $options->getSwitchesInDisplayOrder();
 
                 // short switches first ...
                 //

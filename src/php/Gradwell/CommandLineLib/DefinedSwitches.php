@@ -177,7 +177,7 @@ class DefinedSwitches
                 return $return;
         }
 
-        public function getsSwitchesInDisplayOrder()
+        public function getSwitchesInDisplayOrder()
         {
                 // turn the list into something that's suitably sorted
                 $shortSwitchesWithoutArgs = array();
